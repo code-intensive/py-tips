@@ -1,10 +1,11 @@
+
+![Screenshot 2022-09-30 at 00 59 47](https://user-images.githubusercontent.com/57086233/193174173-9ae83137-3d78-44d8-ac26-d493d04624da.png)
+
 ```python
 
 # A good example of where bisect can be used is the school grading system
 # Say we graded students based on their performance
 # Using the Nigerian secondary school grading
-
-![Screenshot 2022-09-30 at 00 59 47](https://user-images.githubusercontent.com/57086233/193174173-9ae83137-3d78-44d8-ac26-d493d04624da.png)
 
 
 from bisect import bisect

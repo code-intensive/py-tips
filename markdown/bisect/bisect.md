@@ -4,11 +4,11 @@
 # Say we graded students based on their performance
 # Using the Nigerian secondary school grading
 
-<img src="./media/bisect.png" width="350">
+![Screenshot 2022-09-30 at 00 59 47](https://user-images.githubusercontent.com/57086233/193174173-9ae83137-3d78-44d8-ac26-d493d04624da.png)
+
 
 from bisect import bisect
 from typing import Dict, List
-
 
 # It is possible to achieve this using the below algorithm
 def calculate_grade(grade: int) -> str:

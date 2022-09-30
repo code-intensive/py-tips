@@ -4,9 +4,7 @@
 # Say we graded students based on their performance
 # Using the Nigerian secondary school grading
 
-<p align="center">
-  <img src="../../media/bisect/bisect.png" width="350" title="Nigerian secondary school grading">
-</p>
+<img src="./media/bisect.png" width="350">
 
 from bisect import bisect
 from typing import Dict, List

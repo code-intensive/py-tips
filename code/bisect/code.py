@@ -1,13 +1,18 @@
-# A good example of where bisect can be used is the school grading system
-# Say we graded students based on their performance
-# Using the Nigerian secondary school grading
-
-
 from bisect import bisect
-from typing import Dict, List
+from typing import Any, Dict, List
+
+from time import perf_counter
 
 
-# It is possible to achieve this using the below algorithm
+def took_how_long(function, *args, **kwargs) -> None:
+    """ helper function to get time of execution """
+    start = perf_counter()
+    function(*args, **kwargs)
+    print(perf_counter() - start)
+
+# It is possible to achieve this using the below algorithm but
+# this could be a poor solution in terms of code reusability
+# depending on the scenario it could do the trick
 def calculate_grade(grade: int) -> str:
     if grade > 74:
         return 'A1'
@@ -27,8 +32,6 @@ def calculate_grade(grade: int) -> str:
         return 'E8'
     return 'F9'
 
-print(calculate_grade(75))
-
 # We could make this cleaner and faster by leveraging the builtin bisect module
 
 # A static approach using bisect
@@ -43,28 +46,40 @@ def grade_using_bisect_by_list(score: int, *, breakpoints: List[int], grades: Li
     grade = bisect(breakpoints, score) - 1
     return grades[grade]
 
-print(grade_using_bisect_by_list(75, breakpoints=breakpoints, grades=grades))
-
-
 # Here is a dynamic approach, grade mapping can be updated dynamically
 # We create a mapping of scores to grades
 
 grade_map = {
     'F9': 0,
     'E8': 40,
-    'D7': 45,
+    'C4': 60,
     'C6': 50,
     'C5': 55,
-    'C4': 60,
-    'B3': 65,
-    'B2': 70,
     'A1': 75,
+    'B3': 65,
+    'D7': 45,
+    'B2': 70,
 }
 
-grade_map.update({'A0': 85})
+# def grade_using_bisect_by_dict(score: int, *,
+#                                grade_map: Dict[str, int], key=lambda x: x[1],
+#                                requires_sorting=False) -> str:
+#     if requires_sorting:
+#         sorted(grade_map, key=key)
 
-def grade_using_bisect_by_dict(score: int, *, grade_map: Dict[str, int], key=lambda x: x[1], requires_sorting=False) -> str:
+#     grades = list(grade_map.keys())
+#     breakpoints = list(grade_map.values())
+#     grade = bisect(breakpoints, score) - 1
+#     return grades[grade]
+
+
+def grade_using_bisect_by_dict(score: int, *,
+                               grade_map: Dict[str, Any],
+                               requires_sorting=False, key=None) -> str:
     if requires_sorting:
+        assert key is not None, (
+            'key is required to perform sorting'
+        )
         sorted(grade_map, key=key)
 
     grades = list(grade_map.keys())
@@ -72,4 +87,6 @@ def grade_using_bisect_by_dict(score: int, *, grade_map: Dict[str, int], key=lam
     grade = bisect(breakpoints, score) - 1
     return grades[grade]
 
-print(grade_using_bisect_by_dict(95, grade_map=grade_map, requires_sorting=True))
+took_how_long(calculate_grade, grade=75)
+took_how_long(grade_using_bisect_by_dict, score=75, grade_map=grade_map)
+took_how_long(grade_using_bisect_by_list, score=75, breakpoints=breakpoints, grades=grades)

@@ -1,11 +1,14 @@
-```python
+# bisect module in python
 
-# A good example of where bisect can be used is the school grading system
-# Say we graded students based on their performance
-# Using the Nigerian secondary school grading
+## Creating a simple, dynamic grade labelling algorithm
+
+#### A good example of where bisect can be used is the school grading system.
+
+#### Using the Nigerian secondary school grading style, we can grade students based on their performance.
 
 <img src="./media/bisect.png" width="350">
 
+```python
 from bisect import bisect
 from typing import Dict, List
 
@@ -30,6 +33,7 @@ def calculate_grade(grade: int) -> str:
         return 'E8'
     return 'F9'
 
+
 print(calculate_grade(75))
 
 # We could make this cleaner and faster by leveraging the builtin bisect module
@@ -45,6 +49,7 @@ grades = ['F9', 'E8', 'D7', 'C6', 'C5', 'C4', 'B3', 'B2', 'A1']
 def grade_using_bisect_by_list(score: int, *, breakpoints: List[int], grades: List[str]) -> str:
     grade = bisect(breakpoints, score) - 1
     return grades[grade]
+
 
 print(grade_using_bisect_by_list(75, breakpoints=breakpoints, grades=grades))
 
@@ -66,7 +71,10 @@ grade_map = {
 
 grade_map.update({'A0': 85})
 
-def grade_using_bisect_by_dict(score: int, *, grade_map: Dict[str, int], key=lambda x: x[1], requires_sorting=False) -> str:
+
+def grade_using_bisect_by_dict(score: int, *,
+                               grade_map: Dict[str, int], key=lambda x: x[1],
+                               requires_sorting=False) -> str:
     if requires_sorting:
         sorted(grade_map, key=key)
 
@@ -75,6 +83,25 @@ def grade_using_bisect_by_dict(score: int, *, grade_map: Dict[str, int], key=lam
     grade = bisect(breakpoints, score) - 1
     return grades[grade]
 
+
 print(grade_using_bisect_by_dict(95, grade_map=grade_map, requires_sorting=True))
+
+# How about making it work with different types? Sounds nice!!
+
+def grade_using_bisect_by_dict(score: int, *,
+                               grade_map: Dict[str, Any],
+                               extra_map: Dict[str, Any],
+                                key=None, requires_sorting=False) -> str:
+    if requires_sorting:
+        assert key is not None, (
+            'key is required to perform sorting'
+        )
+        sorted(grade_map, key=key)
+
+    grades = list(grade_map.keys())
+    breakpoints = list(grade_map.values())
+    grade = bisect(breakpoints, score) - 1
+    return grades[grade]
+
 
 ```
